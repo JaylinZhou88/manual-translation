@@ -24,16 +24,26 @@ checkAuth();
 loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   loginMessage.textContent = "正在验证。";
-  const response = await fetch("/api/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ password: passwordInput.value }),
-  });
-  if (!response.ok) {
-    loginMessage.textContent = "密码不正确。";
-    return;
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), 20000);
+  try {
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({ password: passwordInput.value }),
+      signal: controller.signal,
+    });
+    if (!response.ok) {
+      loginMessage.textContent = "密码不正确。";
+      return;
+    }
+    showApp();
+  } catch (error) {
+    loginMessage.textContent = "验证请求失败，请刷新页面后再试。";
+  } finally {
+    window.clearTimeout(timeoutId);
   }
-  showApp();
 });
 
 async function checkAuth() {
