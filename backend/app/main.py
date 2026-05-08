@@ -32,7 +32,7 @@ app.mount("/static", StaticFiles(directory=ROOT_DIR / "frontend"), name="static"
 app.mount("/data", StaticFiles(directory=DATA_DIR), name="data")
 
 
-AUTH_COOKIE = "manual_translation_auth"
+AUTH_COOKIE = "manual_translation_auth_v2"
 
 
 def _auth_password() -> str | None:
@@ -93,7 +93,6 @@ async def auth_login(request: Request, response: Response):
         httponly=True,
         samesite="lax",
         secure=_secure_cookie(),
-        max_age=60 * 60 * 24 * 30,
     )
     return {"authenticated": True}
 
