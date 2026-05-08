@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 from .models import Project
 
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
-DATA_DIR = ROOT_DIR / "data"
+DATA_DIR = Path("/tmp/manual-translation-data") if os.getenv("VERCEL") else ROOT_DIR / "data"
 PROJECTS_DIR = DATA_DIR / "projects"
 
 
@@ -36,4 +37,3 @@ def load_project(project_id: str) -> Project:
     if not path.exists():
         raise FileNotFoundError(f"Project {project_id} was not found.")
     return Project.model_validate(json.loads(path.read_text(encoding="utf-8")))
-

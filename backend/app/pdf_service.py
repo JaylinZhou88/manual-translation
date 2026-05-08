@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import html
+import os
 import re
 import textwrap
 from datetime import datetime, timezone
@@ -56,7 +57,7 @@ def _detect_role(text: str, font_size: float, is_bold: bool, bbox: tuple[float, 
     return "body"
 
 
-def _extract_pdf_blocks(page: fitz.Page, page_number: int) -> list[TextBlock]:
+def _extract_pdf_blocks(page: fitz.Page, page_number: int, *, translate: bool) -> list[TextBlock]:
     data = page.get_text("dict", sort=True)
     blocks: list[TextBlock] = []
     counter = 0
@@ -76,7 +77,11 @@ def _extract_pdf_blocks(page: fitz.Page, page_number: int) -> list[TextBlock]:
             font_name = str(first_span.get("font", "")) or None
             color = _span_color(first_span) if spans else (0.0, 0.0, 0.0)
             role = _detect_role(text, font_size, is_bold, bbox)
-            translated, note = translate_to_vietnamese(text)
+            if translate:
+                translated, note = translate_to_vietnamese(text)
+            else:
+                translated = text
+                note = "Not translated yet; use Translate Page."
             blocks.append(
                 TextBlock(
                     id=f"p{page_number}-b{counter}",
@@ -127,7 +132,8 @@ def create_project_from_pdf(source_pdf: Path, original_filename: str) -> Project
             page_number = index + 1
             preview_name = f"page-{page_number:03d}.png"
             _render_preview(page, out_dir / "previews" / preview_name)
-            blocks = _extract_pdf_blocks(page, page_number)
+            auto_translate = os.getenv("AUTO_TRANSLATE_ON_UPLOAD", "false").lower() == "true"
+            blocks = _extract_pdf_blocks(page, page_number, translate=auto_translate)
             pages.append(
                 PageModel(
                     page_number=page_number,
