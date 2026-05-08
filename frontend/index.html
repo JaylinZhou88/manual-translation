@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>说明书越南语翻译工具</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>说明书越南语翻译工具</h1>
+        <p>上传英文 PDF，识别文字位置，校对越南语译文，再导出 PDF。</p>
+      </div>
+      <form id="uploadForm" class="upload">
+        <input id="pdfFile" type="file" accept="application/pdf" />
+        <button type="submit">上传并识别</button>
+      </form>
+    </header>
+
+    <main class="workspace">
+      <aside class="sidebar">
+        <div class="status" id="status">等待上传 PDF。</div>
+        <div class="status" id="configStatus">正在检测百炼配置。</div>
+        <div class="page-list" id="pageList"></div>
+      </aside>
+
+      <section class="preview-panel">
+        <div class="page-stage" id="pageStage">
+          <div class="empty-state">页面预览会显示在这里</div>
+        </div>
+      </section>
+
+      <section class="editor-panel">
+        <div class="editor-head">
+          <div>
+            <h2 id="editorTitle">文字块校对</h2>
+            <p id="editorMeta">选择页面后开始。</p>
+          </div>
+          <div class="editor-actions">
+            <button id="translatePageBtn" class="secondary" disabled>重新翻译本页</button>
+            <button id="exportBtn" disabled>导出越南语 PDF</button>
+          </div>
+        </div>
+        <div id="blockList" class="block-list"></div>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,275 @@
+:root {
+  color-scheme: light;
+  --ink: #17211f;
+  --muted: #64706d;
+  --line: #d9e1de;
+  --panel: #ffffff;
+  --soft: #f5f7f6;
+  --brand: #009b8e;
+  --brand-dark: #00766d;
+  --warn: #9a5b00;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, "Microsoft YaHei", sans-serif;
+  color: var(--ink);
+  background: var(--soft);
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  padding: 18px 24px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 22px;
+}
+
+.topbar p,
+.editor-head p {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.upload {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+button {
+  border: 0;
+  border-radius: 6px;
+  background: var(--brand);
+  color: white;
+  padding: 9px 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--brand-dark);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  background: #9eaaa7;
+}
+
+button.secondary {
+  color: var(--brand-dark);
+  background: #e7f4f2;
+}
+
+button.secondary:hover {
+  color: #fff;
+  background: var(--brand-dark);
+}
+
+button.secondary:disabled {
+  color: #697571;
+  background: #eef1f0;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: 220px minmax(360px, 1fr) 420px;
+  height: calc(100vh - 82px);
+  min-height: 620px;
+}
+
+.sidebar,
+.editor-panel {
+  background: var(--panel);
+  border-right: 1px solid var(--line);
+  overflow: auto;
+}
+
+.editor-panel {
+  border-right: 0;
+  border-left: 1px solid var(--line);
+}
+
+.status {
+  padding: 14px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+  border-bottom: 1px solid var(--line);
+}
+
+.page-list {
+  padding: 10px;
+}
+
+.page-button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  color: var(--ink);
+  background: #eef5f3;
+}
+
+.page-button.active {
+  color: #fff;
+  background: var(--brand-dark);
+}
+
+.badge {
+  border-radius: 999px;
+  padding: 2px 7px;
+  background: rgba(255, 255, 255, 0.25);
+  font-size: 12px;
+}
+
+.preview-panel {
+  overflow: auto;
+  padding: 20px;
+}
+
+.page-stage {
+  position: relative;
+  width: min(100%, 720px);
+  margin: 0 auto;
+  background: white;
+  box-shadow: 0 8px 28px rgba(23, 33, 31, 0.18);
+}
+
+.page-stage img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.empty-state {
+  min-height: 520px;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+}
+
+.overlay-block {
+  position: absolute;
+  border: 2px solid rgba(0, 155, 142, 0.85);
+  background: rgba(0, 155, 142, 0.08);
+  cursor: pointer;
+}
+
+.overlay-block.failed,
+.overlay-block.needs_review {
+  border-color: rgba(154, 91, 0, 0.9);
+  background: rgba(154, 91, 0, 0.08);
+}
+
+.overlay-block.reviewed {
+  border-color: rgba(0, 118, 109, 0.9);
+  background: rgba(0, 118, 109, 0.08);
+}
+
+.editor-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+
+.editor-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.editor-head h2 {
+  font-size: 18px;
+}
+
+.block-list {
+  padding: 12px;
+}
+
+.block-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+  background: #fff;
+}
+
+.block-card.active {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 2px rgba(0, 155, 142, 0.12);
+}
+
+.source {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+  margin-bottom: 8px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 88px;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px;
+  font: 13px/1.45 Arial, sans-serif;
+}
+
+.block-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  gap: 10px;
+}
+
+.note {
+  color: var(--warn);
+  font-size: 12px;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 1080px) {
+  .workspace {
+    grid-template-columns: 160px 1fr;
+  }
+
+  .editor-panel {
+    grid-column: 1 / -1;
+    height: 420px;
+    border-top: 1px solid var(--line);
+  }
+}
