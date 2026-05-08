@@ -2,6 +2,11 @@ let project = null;
 let currentPage = null;
 let activeBlockId = null;
 
+const loginScreen = document.querySelector("#loginScreen");
+const appShell = document.querySelector("#appShell");
+const loginForm = document.querySelector("#loginForm");
+const passwordInput = document.querySelector("#passwordInput");
+const loginMessage = document.querySelector("#loginMessage");
 const uploadForm = document.querySelector("#uploadForm");
 const pdfFile = document.querySelector("#pdfFile");
 const statusBox = document.querySelector("#status");
@@ -14,7 +19,49 @@ const editorMeta = document.querySelector("#editorMeta");
 const exportBtn = document.querySelector("#exportBtn");
 const translatePageBtn = document.querySelector("#translatePageBtn");
 
-loadTranslationConfig();
+checkAuth();
+
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  loginMessage.textContent = "正在验证。";
+  const response = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ password: passwordInput.value }),
+  });
+  if (!response.ok) {
+    loginMessage.textContent = "密码不正确。";
+    return;
+  }
+  showApp();
+});
+
+async function checkAuth() {
+  try {
+    const response = await fetch("/api/auth/status");
+    const data = await response.json();
+    if (data.authenticated) {
+      showApp();
+    } else {
+      showLogin();
+    }
+  } catch (error) {
+    showLogin();
+  }
+}
+
+function showLogin() {
+  loginScreen.hidden = false;
+  appShell.hidden = true;
+  passwordInput.focus();
+}
+
+function showApp() {
+  loginScreen.hidden = true;
+  appShell.hidden = false;
+  loginMessage.textContent = "";
+  loadTranslationConfig();
+}
 
 uploadForm.addEventListener("submit", async (event) => {
   event.preventDefault();

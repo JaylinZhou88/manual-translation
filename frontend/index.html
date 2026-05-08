@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="/static/styles.css" />
   </head>
   <body>
+    <section id="loginScreen" class="login-screen">
+      <form id="loginForm" class="login-panel">
+        <h1>说明书越南语翻译工具</h1>
+        <p>请输入访问密码。</p>
+        <input id="passwordInput" type="password" autocomplete="current-password" placeholder="访问密码" />
+        <button type="submit">进入工具</button>
+        <div id="loginMessage" class="login-message"></div>
+      </form>
+    </section>
+
+    <div id="appShell" class="app-shell" hidden>
     <header class="topbar">
       <div>
         <h1>说明书越南语翻译工具</h1>
@@ -45,6 +56,7 @@
         <div id="blockList" class="block-list"></div>
       </section>
     </main>
+    </div>
 
     <script src="/static/app.js"></script>
   </body>
